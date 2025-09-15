@@ -1,8 +1,9 @@
 import PrinterAdapter from "./lib/printer.mjs";
 import LLMAdapter from "./lib/llm.mjs";
 import { getShortDateFormatted } from "./lib/date.mjs";
+import { archiveMessage } from "./lib/archive.mjs";
 
-const printer = new PrinterAdapter();
+// const printer = new PrinterAdapter();
 const llm = new LLMAdapter();
 
 (async function main() {
@@ -20,6 +21,10 @@ const llm = new LLMAdapter();
 
     console.log("Generating motivational message...");
     const message = await llm.generateMessage();
+
+    // Save the message to a timestamped text file in the ./archive directory
+    archiveMessage(message);
+    console.log("Message generated and archived.");
 
     await printer.printText(getShortDateFormatted() + "\n\n", "CT", 1);
 
