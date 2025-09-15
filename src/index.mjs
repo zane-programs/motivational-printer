@@ -3,7 +3,7 @@ import LLMAdapter from "./lib/llm.mjs";
 import { getShortDateFormatted } from "./lib/date.mjs";
 import { archiveMessage } from "./lib/archive.mjs";
 
-// const printer = new PrinterAdapter();
+const printer = new PrinterAdapter();
 const llm = new LLMAdapter();
 
 (async function main() {
