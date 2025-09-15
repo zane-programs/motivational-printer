@@ -1,0 +1,28 @@
+{
+  "type": "module",
+  "name": "motivational-printer",
+  "version": "1.0.0",
+  "description": "Daily motivational messages",
+  "homepage": "https://github.com/zane-programs/motivational-printer#readme",
+  "bugs": {
+    "url": "https://github.com/zane-programs/motivational-printer/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zane-programs/motivational-printer.git"
+  },
+  "license": "MIT",
+  "author": "Zane St. John",
+  "main": "src/index.mjs",
+  "scripts": {
+    "start": "node src/index.mjs",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.62.0",
+    "@node-escpos/core": "^0.6.0",
+    "@node-escpos/usb-adapter": "^0.3.1",
+    "date-fns": "^4.1.0",
+    "dotenv": "^17.2.2"
+  }
+}
