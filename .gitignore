@@ -143,3 +143,6 @@ vite.config.ts.timestamp-*
 # Letter prompts
 /prompts/SYSTEM.md
 /prompts/USER.md
+
+# Archived letters
+/archive/*.txt

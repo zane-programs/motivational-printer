@@ -11,3 +11,6 @@ export const getFullDateFormatted = (date) =>
 
 export const getShortDateFormatted = (date) =>
   format(date || new Date(), "MM/dd/yyyy h:mm a");
+
+export const getArchiveDateFormatted = (date) =>
+  format(date || new Date(), "yyyy-MM-dd_HH-mm-ss");
