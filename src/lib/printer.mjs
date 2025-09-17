@@ -12,11 +12,21 @@ export default class PrinterAdapter {
   /** @type {boolean} */
   _readyState;
 
-  constructor() {
-    this._device = new USB();
-    this._printer = new Printer(this._device, { encoding: "utf8" });
+  /**
+   * Creates an instance of the printer class.
+   *
+   * @param {Object} [options={}] - Configuration options.
+   * @param {boolean} [options.fakeMode=false] - If true, enables fake mode for testing without a real printer.
+   */
+  constructor({ fakeMode = false } = {}) {
     this._readyState = false;
     this._isExiting = false;
+    this._isFakeMode = fakeMode;
+
+    if (!fakeMode) {
+      this._device = new USB();
+      this._printer = new Printer(this._device, { encoding: "utf8" });
+    }
 
     process.on("exit", () => this._handleExit(false));
     process.on("SIGINT", () => this._handleExit());
@@ -29,8 +39,13 @@ export default class PrinterAdapter {
    * @returns {Promise<void>}
    */
   async start() {
-    await this._openDevice();
-    this._readyState = true;
+    if (this._isFakeMode) {
+      this._readyState = true;
+      console.log("Printer in fake mode. No actual printing will occur.");
+    } else {
+      await this._openDevice();
+      this._readyState = true;
+    }
   }
 
   /**
@@ -39,6 +54,10 @@ export default class PrinterAdapter {
    */
   async close() {
     this._readyState = false;
+    if (this._isFakeMode) {
+      console.log("Closing printer in fake mode.");
+      return;
+    }
     await this._printer.close();
   }
 
@@ -49,6 +68,10 @@ export default class PrinterAdapter {
    * @returns {Promise<void>}
    */
   async beep(n, t) {
+    if (this._isFakeMode) {
+      console.log(`Beep: count=${n}, duration=${t}ms (fake mode)`);
+      return;
+    }
     await this._printer.beep(n, t).flush();
   }
 
@@ -81,6 +104,12 @@ export default class PrinterAdapter {
    * @returns {Promise<void>}
    */
   async printText(text, align = "CT", size = 0) {
+    if (this._isFakeMode) {
+      console.log(
+        `Print text (fake mode): [align=${align}, size=${size}]\n${text}`
+      );
+      return;
+    }
     await this._printer
       .font("A")
       .size(size, size)
@@ -96,6 +125,10 @@ export default class PrinterAdapter {
    * @returns {Promise<void>}
    */
   async printLine(n = 1) {
+    if (this._isFakeMode) {
+      console.log(`Print line breaks (fake mode): ${n}`);
+      return;
+    }
     await this._printer.size(0, 0).text("\n".repeat(n)).flush();
   }
 
@@ -136,6 +169,10 @@ export default class PrinterAdapter {
    * @returns {Promise<void>}
    */
   async printImage(image) {
+    if (this._isFakeMode) {
+      console.log("Print image (fake mode)");
+      return;
+    }
     console.log("Print image");
     await this._printer.align("CT").image(image, "D24");
     await this._printer.flush();

@@ -1,4 +1,4 @@
-import { readFileSync } from "fs";
+import { readFileSync, readdirSync } from "fs";
 
 import { config as dotenvConfig } from "dotenv";
 import { Anthropic } from "@anthropic-ai/sdk";
@@ -35,14 +35,33 @@ export default class LLMAdapter {
   }
 
   /**
+   * Replaces template variables in the user prompt.
+   * @param {Object<string, string>} variables - Key-value pairs of variable names and their values.
+   * @returns {string}
+   */
+  _renderTemplate(template, variables) {
+    return template.replace(/%%([A-Z0-9_]+)%%/g, (_, key) => {
+      return variables[key] ?? `%%${key}%%`;
+    });
+  }
+
+  _readLettersTally() {
+    const files = readdirSync("./archive").filter((file) =>
+      file.endsWith(".txt")
+    );
+    return files.length;
+  }
+
+  /**
    * Generates a motivational message based on the provided sender.
    * @param {string} sender
    * @returns {Promise<string>}
    */
   get _userPrompt() {
-    return this._userPromptTemplate.replace(
-      "%%TODAY_DATE%%",
-      getFullDateFormatted()
-    );
+    const variables = {
+      TODAY_DATE: getFullDateFormatted(),
+      PREVIOUS_LETTERS_TALLY: this._readLettersTally(),
+    };
+    return this._renderTemplate(this._userPromptTemplate, variables);
   }
 }

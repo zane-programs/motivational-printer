@@ -17,9 +17,10 @@ const llm = new LLMAdapter();
     );
 
     console.log("Starting printer...");
-    await printer.start();
+    await printer.start({ fakeMode: true });
 
     console.log("Generating motivational message...");
+
     const message = await llm.generateMessage();
 
     // Save the message to a timestamped text file in the ./archive directory
