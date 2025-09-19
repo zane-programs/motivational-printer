@@ -16,13 +16,26 @@
   "main": "src/index.mjs",
   "scripts": {
     "start": "node src/index.mjs",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "plan": "node plan.mjs",
+    "write": "node write.mjs",
+    "plan-and-write": "npm run plan && npm run write",
+    "extract-claude-session": "node extract-claude-session.mjs",
+    "interactive-claude-auth": "node interactive-claude-auth.mjs",
+    "test-claude-session": "node test-claude-session.mjs",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "test-planner": "node test-planner.mjs",
+    "test-workflow": "node test-new-workflow.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.62.0",
     "@node-escpos/core": "^0.6.0",
     "@node-escpos/usb-adapter": "^0.3.1",
     "date-fns": "^4.1.0",
-    "dotenv": "^17.2.2"
+    "dotenv": "^17.2.2",
+    "playwright": "^1.55.0",
+    "puppeteer": "^24.22.0",
+    "puppeteer-extra": "^3.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2",
+    "rebrowser-playwright": "^1.48.2"
   }
 }

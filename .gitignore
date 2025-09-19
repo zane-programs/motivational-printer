@@ -140,9 +140,13 @@ vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
 
-# Letter prompts
-/prompts/SYSTEM.md
-/prompts/USER.md
+# Letter prompts (keep examples)
+/prompts/private/*.md
+!/prompts/private/*.example.md
 
 # Archived letters
 /archive/*.txt
+
+# Temporary files
+/planning-output
+/browser-data

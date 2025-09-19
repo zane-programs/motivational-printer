@@ -148,7 +148,6 @@ export default class PrinterAdapter {
    */
   async selfTest() {
     await this.printText("Printer! | self-test\n" + new Date().toString());
-    await this.printText("Printer Server v" + APP_VERSION);
     await this.printLine();
 
     for (let i = 0; i < 4; i++) {

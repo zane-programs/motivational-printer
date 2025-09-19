@@ -6,5 +6,7 @@ import { getArchiveDateFormatted } from "./date.mjs";
  * @param {string} message - The message to archive
  */
 export function archiveMessage(message) {
-  fs.writeFileSync(`./archive/${getArchiveDateFormatted()}.txt`, message);
+  const filename = `./archive/${getArchiveDateFormatted()}.txt`;
+  fs.writeFileSync(filename, message);
+  return { filename };
 }
